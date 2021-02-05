@@ -1,12 +1,22 @@
 import React from 'react';
-import {Data} from './styles';
+import {Container, Label} from './styles';
 
 interface TextProps {
-  dia: string;
+  dataParaMostrar: string;
 }
 
-const CabecalhoData: React.FC<TextProps> = ({dia}) => {
-  return <Data>{dia}</Data>;
+const CabecalhoData: React.FC<TextProps> = ({dataParaMostrar}) => {
+  const dataParsed = dataParaMostrar
+    .split('T')[0]
+    .split('-')
+    .reverse()
+    .join('/');
+
+  return (
+    <Container>
+      <Label>{dataParsed}</Label>
+    </Container>
+  );
 };
 
 export default CabecalhoData;

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {StatusBar, SafeAreaView, FlatList, Text, TextInput} from 'react-native';
-
-import Celula from './src/components/Celula';
-import {IComidaControlada} from './src/interfaces/IComidaControlada';
+import {StatusBar, SafeAreaView, FlatList} from 'react-native';
+import CabecalhoData from './src/components/CabecalhoData';
+import CabecalhoHora from './src/components/CabecalhoHora';
+import CelulaAlimentar from './src/components/CelulaAlimentar';
 
 import allDayFromAnYear from './src/utils/allDayFromAnYear';
 import calcularInformacoesTela from './src/utils/calcularInformacoesTela';
@@ -28,33 +28,25 @@ const App: React.FC = () => {
 
   useEffect(() => {
     let a: Array<ITEste> = [];
+
     arrayDays.forEach((item) => {
       let tempe = calcularInformacoesTela(item.dia.toISOString().split('T')[0]);
-      a.push(tempe[0]);
+      a.push(tempe);
     });
+
     setInfo(a);
   }, []);
 
-  const alterado = (e: string, dia: Date, hora: string) => {
-    const registro = info
-      .filter((i) => i.dia === dia)
-      .map((a) => {
-        return {
-          dia: a.dia,
-          horarios: a.horarios.map((b) => {
-            if (b.hora === hora) {
-              return {...b, consumido: e};
-            }
+  const alterado = (dia: Date, hora: string, e: string) => {
+    let dataAlterada = info.findIndex((item) => item.dia === dia);
+    let horaAlterada = info[dataAlterada].horarios.findIndex(
+      (item) => item.hora === hora,
+    );
 
-            return {...b};
-          }),
-        };
-      });
+    info[dataAlterada].horarios[horaAlterada].consumido = +e;
+    let novoRegistro = Object.assign({}, info[dataAlterada]);
 
-    let b = Object.assign({}, {...info, ...registro[0]});
-    console.log('info :>> ', JSON.stringify(info));
-    console.log('b :>> ', JSON.stringify(b));
-    setInfo(b);
+    setInfo([...info, novoRegistro]);
   };
 
   return (
@@ -64,20 +56,21 @@ const App: React.FC = () => {
       <SafeAreaView>
         <FlatList
           data={info}
+          keyExtractor={(item) => item.dia.toISOString()}
           renderItem={({item}) => {
+            const {dia, horarios} = item;
+            const diaParsed = dia.toISOString();
+
             return (
-              <Container>
-                <Text>{item.dia.toISOString()}</Text>
-                {item.horarios.map((it) => (
-                  <>
-                    <Text>{it.hora}</Text>
-                    <Text>{it.normal}</Text>
-                    <Text>{it.renal}</Text>
-                    <TextInput
-                      onChangeText={(e) => alterado(e, item.dia, it.hora)}
-                    />
-                  </>
-                ))}
+              <Container key={diaParsed}>
+                <CabecalhoData dataParaMostrar={diaParsed} />
+                <CabecalhoHora horaParaMostrar={horarios} />
+                <CelulaAlimentar
+                  informacoes={horarios}
+                  onChangeText={(hora: string, value: string) =>
+                    alterado(dia, hora, value)
+                  }
+                />
               </Container>
             );
           }}

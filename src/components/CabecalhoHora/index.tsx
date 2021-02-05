@@ -1,17 +1,23 @@
 import React from 'react';
-import {Horas, Hora} from './styles';
+import {Container, Label} from './styles';
 
 interface TextProps {
-  horas: Array<string>;
+  horaParaMostrar: Array<IReteste>;
+}
+interface IReteste {
+  hora: string;
+  normal: number;
+  renal: number;
+  consumido: number;
 }
 
-const CabecalhoHora: React.FC<TextProps> = ({horas}) => {
+const CabecalhoHora: React.FC<TextProps> = ({horaParaMostrar}) => {
   return (
-    <Horas>
-      {horas.map((hora: string) => (
-        <Hora key={hora}>{hora}</Hora>
+    <Container>
+      {horaParaMostrar.map((h: IReteste) => (
+        <Label key={h.hora}>{h.hora}</Label>
       ))}
-    </Horas>
+    </Container>
   );
 };
 

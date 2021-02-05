@@ -2,7 +2,7 @@ import React from 'react';
 import {IComidaControlada} from '../../interfaces/IComidaControlada';
 import CabecalhoData from '../CabecalhoData';
 import CabecalhoHora from '../CabecalhoHora';
-import Porcoes from '../Porcoes';
+import Porcoes from '../CelulaAlimentar';
 import {Container} from './styles';
 
 interface ICelula {
