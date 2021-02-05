@@ -1,0 +1,32 @@
+{
+  "anabella": {
+    "porcao_diaria": 50,
+    "horario_alimentacao": ["08:00", "12:00", "16:00", "20:00", "24:00"],
+    "trocar_racoes": [
+      {
+        "dia": "2021-01-01",
+        "percentual": 75
+      },
+      {
+        "dia": "2021-01-02",
+        "percentual": 75
+      },
+      {
+        "dia": "2021-01-03",
+        "percentual": 75
+      },
+      {
+        "dia": "2021-01-04",
+        "percentual": 50
+      },
+      {
+        "dia": "2021-01-05",
+        "percentual": 50
+      },
+      {
+        "dia": "2021-01-07",
+        "percentual": 50
+      }
+    ]
+  }
+}
